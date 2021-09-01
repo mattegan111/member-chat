@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Member</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1>Member Chat</h1>
+    <p>Welcome to Member Chat</p>
+    <% if (user){%>
+        <p>logged in <%= user.email %></p>
+      <%} else { %>
+        <p>logged out</p>
+      <%}%>
+  </body>
+</html>
