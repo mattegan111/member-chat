@@ -40,7 +40,6 @@ passport.use(new LocalStrategy({
     passwordField: 'password'
   },
   function(req, username, password, done) {
-    console.log('localstrategy fires');
     User.findOne({ email: username }, (err, user) => {
       if (err) return done(err);
       if (!user) return done(null, false, { message: "Incorrect username" });
@@ -53,11 +52,9 @@ passport.use(new LocalStrategy({
   }
 ));
 passport.serializeUser((user, done) => {
-  console.log('serializeUser fires');
   done(null, user.id)
 });
 passport.deserializeUser((id, done) => {
-  console.log('deserializeUser fires');
   User.findById(id, (err, user) => {
     done(err, user);
   });

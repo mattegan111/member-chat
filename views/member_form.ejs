@@ -6,9 +6,23 @@
   </head>
   <body>
     <h1>Become a member</h1>
-    <form action="" method="POST">
-      <label for="secret_code">Secret Code:</label>
-      <input name="secret_code" placeholder="Secret Code" type="text" />
+    <% if (locals.user){%>
+      <p>Logged in as <%= user.first_name %> <%= user.last_name%></p>
+      <form action="" method="POST">
+        <label for="secret_code">Secret Code:</label>
+        <input name="secret_code" placeholder="Secret Code" type="text" />
+        <button type="submit">Submit</button>
+      </form>
+      <p><a href="/sign-out">Sign Out</a></p>
+    <%} else { %>
+      <p>Logged out</p>
+      <p><a href="/sign-in">Sign In</a></p>
+    <%}%>
+    <%if (locals.codeConfirmationError) { %>
+      <p class="error"><%= codeConfirmationError %></p>
+    <% } %>
+
+
       
 <!--       
     <%if (locals.passwordConfirmationError) { %>
@@ -16,7 +30,6 @@
       <% } %> 
 -->
 
-      <button type="submit">Submit</button>
     </form>
   </body>
 </html>
