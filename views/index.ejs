@@ -14,16 +14,28 @@
         <p><a href="/become-an-admin">Become An Admin</a></p>
         <p><a href="/sign-out">Sign Out</a></p>
         <% messages.forEach(message => { %>
-          <p><%= message.header %></p>
-          <p><%= message.body %></p>
-          <% if (user.member == true) {%>
-            <p><%= message.user.first_name %> <%= message.user.last_name %></p>
-          <% } %>
-          <p><%= message.timestamp %></p>
+          <div class="message">
+            <p class="header"><%= message.header %></p>
+            <p><%= message.body %></p>
+            <% if (user.member == true) {%>
+              <p><%= message.user.first_name %> <%= message.user.last_name %></p>
+            <% } else {%>
+              <p>Members can see message authors.</p>
+            <% } %>
+            <p><%= message.timestamp %></p>
+          </div>
         <% }) %>
     <%} else { %>
         <p>Logged out</p>
         <p><a href="/sign-in">Sign In</a></p>
+        <% messages.forEach(message => { %>
+          <div class="message">
+            <p class="header"><%= message.header %></p>
+            <p><%= message.body %></p>
+            <p>Members can see message authors.</p>
+            <p><%= message.timestamp %></p>
+          </div>
+        <% }) %>
     <%}%>
   </body>
 </html>

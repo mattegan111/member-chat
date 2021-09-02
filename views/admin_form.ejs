@@ -8,12 +8,16 @@
     <h1>Become an Admin</h1>
     <% if (locals.user){%>
       <p>Logged in as <%= user.first_name %> <%= user.last_name%></p>
-      <form action="" method="POST">
-        <label for="secret_code">Secret Code:</label>
-        <input name="secret_code" placeholder="Secret Code" type="text" />
-        <button type="submit">Submit</button>
-      </form>
-      <p><a href="/sign-out">Sign Out</a></p>
+      <% if (user.admin == true){%>
+        <p>You are already an admin!</p>
+      <%} else { %>
+        <form action="" method="POST">
+          <label for="secret_code">Secret Code:</label>
+          <input name="secret_code" placeholder="Secret Code" type="text" />
+          <button type="submit">Submit</button>
+        </form>
+        <p><a href="/sign-out">Sign Out</a></p>
+      <%}%>
     <%} else { %>
       <p>Logged out</p>
       <p><a href="/sign-in">Sign In</a></p>
@@ -21,15 +25,6 @@
     <%if (locals.codeConfirmationError) { %>
       <p class="error"><%= codeConfirmationError %></p>
     <% } %>
-
-
-      
-<!--       
-    <%if (locals.passwordConfirmationError) { %>
-        <p class="error"><%= passwordConfirmationError %></p>
-      <% } %> 
--->
-
     </form>
   </body>
 </html>

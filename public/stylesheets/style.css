@@ -6,3 +6,14 @@ body {
 a {
   color: #00B7FF;
 }
+
+.message {
+  margin: 10px;
+  padding: 10px;
+  background-color: #eeeeee;
+  border-radius: 10px;
+}
+
+.header {
+  font-weight: bold;
+}
