@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
 
 
 // Require controller modules
@@ -19,10 +18,6 @@ router.post('/sign-up', user_controller.user_create_post);
 router.get('/sign-in', user_controller.user_sign_in_get);
 
 // POST login page
-/* router.post('/sign-in', passport.authenticate("local", (req, res) => {
-    successRedirect: "/",
-    failureRedirect: "/fail"
-})); */
 router.post('/sign-in', user_controller.user_sign_in_post);
 
 // GET member form page

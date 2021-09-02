@@ -2,6 +2,7 @@ const async = require('async');
 const { body, validationResult} = require('express-validator');
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 exports.index = function(req, res, done) {
     res.render('index', { title: 'Member Chat', user: req.user });
@@ -67,9 +68,10 @@ exports.user_sign_in_get = function(req, res, done) {
     res.render('sign_in');
 };
 
-exports.user_sign_in_post = function(req, res, done) {
-    res.render('index');
-};
+exports.user_sign_in_post = passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/sign-in'
+});
 
 exports.member_form_get = function(req, res, done) {
     res.render('member_form');
