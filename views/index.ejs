@@ -7,13 +7,23 @@
   <body>
     <h1>Member Chat</h1>
     <p>Welcome to Member Chat</p>
-    <% if (user){%>
+    <% if (user) {%>
         <p>Logged in as <%= user.first_name %> <%= user.last_name%></p>
+        <p><a href="/post-a-message">Post a Message</a></p>
         <p><a href="/become-a-member">Become A Member</a></p>
+        <p><a href="/become-an-admin">Become An Admin</a></p>
         <p><a href="/sign-out">Sign Out</a></p>
-      <%} else { %>
+        <% messages.forEach(message => { %>
+          <p><%= message.header %></p>
+          <p><%= message.body %></p>
+          <% if (user.member == true) {%>
+            <p><%= message.user.first_name %> <%= message.user.last_name %></p>
+          <% } %>
+          <p><%= message.timestamp %></p>
+        <% }) %>
+    <%} else { %>
         <p>Logged out</p>
         <p><a href="/sign-in">Sign In</a></p>
-      <%}%>
+    <%}%>
   </body>
 </html>

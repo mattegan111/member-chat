@@ -1,11 +1,19 @@
 const async = require('async');
 const { body, validationResult} = require('express-validator');
 const User = require('../models/user');
+const Message = require('../models/message');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 
 exports.index = function(req, res, done) {
-    res.render('index', { title: 'Member Chat', user: res.locals.currentUser });
+
+    Message.find()
+        .populate('user')
+        .sort([['timestamp', 'descending']])
+        .exec(function (err, results) {
+            if (err) { return done(err); }
+            res.render('index', { title: 'Member Chat', user: res.locals.currentUser, messages: results });
+        })
 };
 
 exports.user_create_get = function(req, res, done) {
@@ -117,6 +125,49 @@ exports.member_form_post = [
             User.findByIdAndUpdate(res.locals.currentUser._id, user, {}, function (err, theuser){
                 if (err) { return done(err); }
                 console.log(theuser); //TODO Delete
+                res.redirect('/');
+            });
+        }
+    }
+];
+
+exports.admin_form_get = function(req, res, done) {
+    res.render('admin_form', {user: res.locals.currentUser});
+};
+
+exports.admin_form_post = [
+
+    body('secret_code', 'Field is required').isLength({min: 1, max: 100})
+    .custom((value) => {
+        if (value != '@everyone') {
+            throw new Error('Incorrect code');
+        }
+        return true;
+    }),
+    
+    async (req, res, done) => {
+        const errors = validationResult(req);
+        console.log(errors);
+
+        if (!errors.isEmpty()) {
+            res.render('admin_form', { codeConfirmationError: errors });
+        }
+        else {
+            console.log('update user in DB');
+
+            // Create User object with local currentUser data
+            const user = new User({
+                _id: res.locals.currentUser._id,
+                email: res.locals.currentUser.email,
+                password: res.locals.currentUser.password,
+                first_name: res.locals.currentUser.first_name,
+                last_name: res.locals.currentUser.last_name,
+                member: res.locals.currentUser.member,
+                admin: true,
+            });
+
+            User.findByIdAndUpdate(res.locals.currentUser._id, user, {}, function (err, theuser){
+                if (err) { return done(err); }
                 res.redirect('/');
             });
         }

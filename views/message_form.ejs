@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Post A Message</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h1>Post A Message</h1>
+    <% if (locals.user){%>
+        <% if (locals.user.member == true) {%>
+            <p>Logged in as <%= user.first_name %> <%= user.last_name%></p>
+            <form action="" method="POST">
+              <label for="header">Header:</label>
+              <input name="header" placeholder="Header" type="text" />
+              <label for="body">Message:</label>
+              <input name="body" placeholder="Message" type="text" />
+              <button type="submit">Submit</button>
+            </form>
+        <% } else { %>
+            <p>Logged in as <%= user.first_name %> <%= user.last_name%></p>
+            <p>To Leave A Comment:</p>
+            <p><a href="/become-a-member">Become A Member</a></p>
+        <%}%>
+    <% } else { %>
+        <p>Logged out</p>
+        <p><a href="/sign-in">Sign In</a></p>
+    <%}%>
+    </form>
+  </body>
+</html>
